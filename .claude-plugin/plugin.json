@@ -1,10 +1,10 @@
 {
-  "name": "first-customer-finder",
-  "description": "Find and qualify evidence-backed potential first customers, early adopters, and design partners for a startup from recent public signals. Research-only: never sends outreach.",
-  "version": "0.1.2",
+  "name": "cliente-finder-brasil",
+  "description": "Encontra e qualifica, com evidência, clientes potenciais no mercado brasileiro a partir de sinais públicos (Facebook, Instagram, LinkedIn, YouTube, Reclame Aqui...). Modo infoproduto para ângulos de criativo. Só pesquisa: nunca envia mensagens.",
+  "version": "0.2.0",
   "author": {
-    "name": "Daniel An"
+    "name": "Arthur (fork de Daniel An)"
   },
-  "homepage": "https://github.com/carolinacherry/claude-first-customer-finder-skill",
+  "homepage": "https://github.com/arthur-rs/cliente-finder-brasil",
   "license": "MIT"
 }

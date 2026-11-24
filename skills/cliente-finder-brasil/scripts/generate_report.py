@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a First Customer Finder analysis JSON as a standalone HTML report."""
+"""Render a Cliente Finder Brasil analysis JSON as a standalone HTML report."""
 
 from __future__ import annotations
 
@@ -11,11 +11,11 @@ from typing import Any
 from urllib.parse import urlparse
 
 SCORE_DIMENSIONS = {
-    "pain": "Pain strength",
-    "fit": "Product fit",
-    "timing": "Timing",
-    "reachability": "Reachability",
-    "evidence": "Evidence quality",
+    "pain": "Força da dor",
+    "fit": "Encaixe no produto",
+    "timing": "Momento",
+    "reachability": "Alcançabilidade",
+    "evidence": "Qualidade da evidência",
 }
 
 
@@ -51,15 +51,15 @@ def safe_url(value: Any) -> str:
 
 def score_band(score: int) -> str:
     if score >= 80:
-        return "Strong candidate"
+        return "Candidato forte"
     if score >= 65:
-        return "Promising"
-    return "Needs validation"
+        return "Promissor"
+    return "Precisa validar"
 
 
 def render_scores(scores: dict[str, Any]) -> str:
     return "".join(
-        f'<div><dt>{esc(label)}</dt><dd>{clamp(scores.get(key, 0), 5)} of 5</dd></div>'
+        f'<div><dt>{esc(label)}</dt><dd>{clamp(scores.get(key, 0), 5)} de 5</dd></div>'
         for key, label in SCORE_DIMENSIONS.items()
     )
 
@@ -71,17 +71,17 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
     rows = "".join(
         f"<dt>{esc(label)}</dt><dd>{esc(value)}</dd>"
         for label, value in (
-            ("Why it fits", prospect.get("why_fit")),
-            ("Why now", prospect.get("why_now")),
-            ("Channel", prospect.get("channel")),
-            ("Caution", prospect.get("caution") or "Confirm the signal is still current before outreach."),
+            ("Por que encaixa", prospect.get("why_fit")),
+            ("Por que agora", prospect.get("why_now")),
+            ("Canal", prospect.get("channel")),
+            ("Cuidado", prospect.get("caution") or "Confirme se o sinal ainda é atual antes de abordar."),
         )
         if value
     )
     opener = prospect.get("opener")
     opener_html = (
         '      <div class="opener">\n'
-        '        <p class="label">Suggested opener, draft only and never sent automatically</p>\n'
+        '        <p class="label">Mensagem sugerida: rascunho, nunca é enviada automaticamente</p>\n'
         f"        <p>{esc(opener)}</p>\n"
         "      </div>"
         if opener
@@ -89,9 +89,9 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
     )
     evidence_html = f"""        <p>{esc(prospect.get('evidence', ''))}</p>
         <p class="source">
-          {esc(source.get('type', 'Public source'))}, {esc(source.get('date', 'date unavailable'))}
+          {esc(source.get('type', 'Fonte pública'))}, {esc(source.get('date', 'data indisponível'))}
           <span aria-hidden="true">&middot;</span>
-          <a href="{url}" target="_blank" rel="noreferrer">{esc(source.get('title', 'Open original source'))}</a>
+          <a href="{url}" target="_blank" rel="noreferrer">{esc(source.get('title', 'Abrir fonte original'))}</a>
         </p>
         <dl class="dims">{render_scores(as_dict(prospect.get('scores')))}</dl>"""
     return f"""
@@ -99,7 +99,7 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
       <header class="p-head">
         <div>
           <h3>{esc(prospect.get('name') or f'Prospect {index}')}</h3>
-          <p class="sub">{esc(prospect.get('type', 'Public prospect'))} <span aria-hidden="true">&middot;</span> {esc(prospect.get('stage', 'Potential fit'))}</p>
+          <p class="sub">{esc(prospect.get('type', 'Prospect público'))} <span aria-hidden="true">&middot;</span> {esc(prospect.get('stage', 'Encaixe potencial'))}</p>
         </div>
         <div class="score"><b class="num">{score}</b><span>{esc(score_band(score))}</span></div>
       </header>
@@ -107,11 +107,11 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
       <dl class="kv">{rows}</dl>
 {opener_html}
       <details class="screen-only">
-        <summary>Evidence and score breakdown</summary>
+        <summary>Evidência e detalhamento da nota</summary>
 {evidence_html}
       </details>
       <div class="print-only">
-        <p class="label">Evidence and score breakdown</p>
+        <p class="label">Evidência e detalhamento da nota</p>
 {evidence_html}
       </div>
     </article>"""
@@ -120,7 +120,7 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
 def render_pattern(pattern: dict[str, Any]) -> str:
     return (
         f'<div class="pattern"><b class="num">{clamp(pattern.get("count"), 999)}</b>'
-        f'<div><h4>{esc(pattern.get("title", "Repeated signal"))}</h4>'
+        f'<div><h4>{esc(pattern.get("title", "Sinal repetido"))}</h4>'
         f'<p>{esc(pattern.get("insight", ""))}</p></div></div>'
     )
 
@@ -215,15 +215,15 @@ def build_html(data: dict[str, Any]) -> str:
     plan = as_dict(data.get("outreach_plan"))
     scores = [clamp(p.get("score")) for p in prospects]
     average = round(sum(scores) / len(scores)) if scores else 0
-    high_intent = sum(1 for p in prospects if "high" in str(p.get("stage", "")).lower())
+    high_intent = sum(1 for p in prospects if any(w in str(p.get("stage", "")).lower() for w in ("alta", "high")))
     top = max(prospects, key=lambda p: clamp(p.get("score")), default={})
     top_name = top.get("name") or f"Prospect {prospects.index(top) + 1}" if top else ""
     meta = ' <span aria-hidden="true">&middot;</span> '.join(
         esc(part)
         for part in (
-            "First Customer Finder",
+            "Cliente Finder Brasil",
             data.get("generated_at"),
-            f"{str(data.get('mode') or 'standard').capitalize()} mode",
+            f"Modo {data.get('mode') or 'padrão'}",
         )
         if part
     )
@@ -234,16 +234,16 @@ def build_html(data: dict[str, Any]) -> str:
     plan_html = "".join(
         f'<div><dt>{esc(label)}</dt><dd>{esc(plan.get(key, ""))}</dd></div>'
         for key, label in (
-            ("first_step", "First step"),
-            ("follow_up", "Follow up"),
-            ("success", "Success signal"),
+            ("first_step", "Primeiro passo"),
+            ("follow_up", "Acompanhamento"),
+            ("success", "Sinal de sucesso"),
         )
     )
     top_html = (
         f"""
   <section class="top">
     <div>
-      <p class="eyebrow">Highest confidence prospect</p>
+      <p class="eyebrow">Prospect de maior confiança</p>
       <h2>{esc(top_name)}</h2>
       <p>{esc(top.get('why_now', top.get('signal', '')))}</p>
     </div>
@@ -254,58 +254,58 @@ def build_html(data: dict[str, Any]) -> str:
     )
 
     return f"""<!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>{esc(data.get('title', 'First Customer Finder'))}</title>
+<title>{esc(data.get('title', 'Cliente Finder Brasil'))}</title>
 <style>{CSS}</style>
 </head>
 <body>
 <main class="sheet">
   <header>
     <p class="meta">{meta}</p>
-    <h1>{esc(data.get('title', 'First Customer Finder'))}</h1>
-    <p class="verdict">{esc(data.get('verdict', 'No verdict supplied.'))}</p>
+    <h1>{esc(data.get('title', 'Cliente Finder Brasil'))}</h1>
+    <p class="verdict">{esc(data.get('verdict', 'Sem veredito.'))}</p>
   </header>
 
   <dl class="facts">
-    <div><dt>Product</dt><dd><a href="{safe_url(data.get('product_url'))}" target="_blank" rel="noreferrer">{esc(data.get('product', 'Not specified'))}</a></dd></div>
-    <div><dt>Target customer</dt><dd>{esc(data.get('target_customer', 'Not specified'))}</dd></div>
-    <div><dt>Qualified prospects</dt><dd class="num">{len(prospects)} <span class="sub">({high_intent} high intent)</span></dd></div>
-    <div><dt>Average fit score</dt><dd class="num">{average} of 100</dd></div>
+    <div><dt>Produto</dt><dd><a href="{safe_url(data.get('product_url'))}" target="_blank" rel="noreferrer">{esc(data.get('product', 'Não informado'))}</a></dd></div>
+    <div><dt>Cliente-alvo</dt><dd>{esc(data.get('target_customer', 'Não informado'))}</dd></div>
+    <div><dt>Prospects qualificados</dt><dd class="num">{len(prospects)} <span class="sub">({high_intent} alta intenção)</span></dd></div>
+    <div><dt>Nota média</dt><dd class="num">{average} de 100</dd></div>
   </dl>
 {top_html}
   <section class="block">
-    <p class="eyebrow">Shortlist</p>
-    <h2 class="section">Who to talk to first</h2>
-    <p class="note">Sources: {esc(data.get('search_scope', 'not specified'))}.</p>
-    {prospect_html or '<p class="empty">No qualified prospects supplied.</p>'}
+    <p class="eyebrow">Lista curta</p>
+    <h2 class="section">Com quem falar primeiro</h2>
+    <p class="note">Fontes: {esc(data.get('search_scope', 'não informado'))}.</p>
+    {prospect_html or '<p class="empty">Nenhum prospect qualificado.</p>'}
   </section>
 
   <section class="block">
-    <p class="eyebrow">Patterns</p>
-    <h2 class="section">Signals that repeat</h2>
-    <p class="note">Problems that came up more than once. Lead with these.</p>
-    <div class="patterns">{pattern_html or '<p class="empty">No repeated patterns supplied.</p>'}</div>
+    <p class="eyebrow">Padrões</p>
+    <h2 class="section">Sinais que se repetem</h2>
+    <p class="note">Problemas que apareceram mais de uma vez. Comece por eles: são os melhores ângulos de anúncio.</p>
+    <div class="patterns">{pattern_html or '<p class="empty">Nenhum padrão repetido.</p>'}</div>
   </section>
 
   <section class="block">
-    <p class="eyebrow">Next seven days</p>
-    <h2 class="section">What to do this week</h2>
-    <p class="angle">{esc(plan.get('angle', 'Validate the pain before pitching the product.'))}</p>
+    <p class="eyebrow">Próximos sete dias</p>
+    <h2 class="section">O que fazer esta semana</h2>
+    <p class="angle">{esc(plan.get('angle', 'Valide a dor antes de oferecer o produto.'))}</p>
     <dl class="steps">{plan_html}</dl>
   </section>
 
   <section class="block">
-    <p class="eyebrow">Limits</p>
-    <h2 class="section">Read this before acting</h2>
-    <ul class="limits">{limits_html or '<li>Potential customers inferred from public signals, not confirmed buyers.</li>'}</ul>
+    <p class="eyebrow">Limites</p>
+    <h2 class="section">Leia antes de agir</h2>
+    <ul class="limits">{limits_html or '<li>Clientes potenciais inferidos de sinais públicos, não compradores confirmados.</li>'}</ul>
   </section>
 
   <footer>
-    <span>Built from public posts only. Nothing here gets sent for you.</span>
+    <span>Feito só com publicações públicas. Nada aqui é enviado por você. Respeite a LGPD.</span>
   </footer>
 </main>
 </body>

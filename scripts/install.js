@@ -6,11 +6,11 @@ const path = require("path");
 
 function usage() {
   console.log(`
-First Customer Finder skill installer (Claude Code)
+Cliente Finder Brasil skill installer (Claude Code)
 
 Usage:
-  npx --yes claude-first-customer-finder-skill
-  claude-first-customer-finder-skill --skills-dir ~/.claude/skills
+  node scripts/install.js
+  node scripts/install.js --skills-dir ~/.claude/skills
 
 Options:
   --skills-dir PATH  Install into a custom skills directory
@@ -68,20 +68,20 @@ function main() {
     return;
   }
 
-  const source = path.resolve(__dirname, "..", "skills", "first-customer-finder");
+  const source = path.resolve(__dirname, "..", "skills", "cliente-finder-brasil");
   const skillsDir = path.resolve(options.skillsDir || defaultSkillsDir());
-  const destination = path.join(skillsDir, "first-customer-finder");
+  const destination = path.join(skillsDir, "cliente-finder-brasil");
   if (!fs.existsSync(source)) throw new Error(`Cannot find bundled skill at ${source}`);
 
   fs.mkdirSync(skillsDir, { recursive: true });
   fs.rmSync(destination, { recursive: true, force: true });
   copyDirectory(source, destination);
 
-  console.log("Installed the first-customer-finder skill for Claude Code.");
+  console.log("Installed the cliente-finder-brasil skill for Claude Code.");
   console.log(`Location: ${destination}`);
   console.log("");
   console.log("Start a new Claude Code session, then try:");
-  console.log('  "Find ten potential first customers for https://example.com"');
+  console.log('  "Ache dez clientes potenciais para https://exemplo.com.br"');
 }
 
 try {

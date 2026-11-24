@@ -1,19 +1,19 @@
 {
-  "name": "claude-first-customer-finder-skill",
-  "version": "0.1.2",
-  "description": "A Claude Code skill that finds evidence-backed potential first customers for a startup from recent public signals.",
+  "name": "cliente-finder-brasil",
+  "version": "0.2.0",
+  "description": "Encontra e qualifica, com evidência, clientes potenciais no mercado brasileiro a partir de sinais públicos (Facebook, Instagram, LinkedIn, YouTube, Reclame Aqui...). Modo infoproduto para ângulos de criativo. Só pesquisa: nunca envia mensagens.",
   "license": "MIT",
   "author": "Daniel An",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carolinacherry/claude-first-customer-finder-skill.git"
+    "url": "git+https://github.com/arthur-rs/cliente-finder-brasil.git"
   },
-  "homepage": "https://github.com/carolinacherry/claude-first-customer-finder-skill#readme",
+  "homepage": "https://github.com/arthur-rs/cliente-finder-brasil#readme",
   "bugs": {
-    "url": "https://github.com/carolinacherry/claude-first-customer-finder-skill/issues"
+    "url": "https://github.com/arthur-rs/cliente-finder-brasil/issues"
   },
   "bin": {
-    "claude-first-customer-finder-skill": "scripts/install.js"
+    "cliente-finder-brasil": "scripts/install.js"
   },
   "files": [
     "skills",
@@ -32,8 +32,5 @@
     "prospecting",
     "customer-discovery",
     "founders"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }
