@@ -18,7 +18,7 @@ description: >-
 
 Transforma a URL ou a descrição de um produto numa lista curta, com evidência, de clientes potenciais no Brasil. Todo prospect precisa vir de um sinal público real que você abriu e conferiu na fonte original. A lista é uma hipótese de pesquisa, não um banco de clientes.
 
-Leia [references/research-framework.md](references/research-framework.md) antes de pesquisar ou pontuar. Leia [references/report-schema.md](references/report-schema.md) antes de gerar o relatório.
+Leia [references/research-framework.md](references/research-framework.md) antes de pesquisar ou pontuar. Leia [references/report-schema.md](references/report-schema.md) antes de gerar o relatório. Em B2B, leia também [references/decisores.md](references/decisores.md).
 
 Escreva tudo (relatório, mensagens, análise) em português do Brasil, com o vocabulário do público.
 
@@ -28,7 +28,7 @@ Escreva tudo (relatório, mensagens, análise) em português do Brasil, com o vo
 
 Abra a URL (e as páginas de preço/sobre, se existirem) ou leia a descrição. Defina: o que o produto faz, o resultado que vende, quem usa e quem paga, preço e forma de compra (Pix, boleto, cartão, assinatura, Hotmart/Kiwify/Eduzz), região do Brasil se importar, e o caso de uso mais forte.
 
-Escolha **um cliente ideal principal e um adjacente**, cada um com gatilhos de dor, sinais positivos e desqualificadores explícitos. Em produto de dois lados, o principal é o lado que paga. Marque o que foi inferido e não observado. Faça uma pergunta ao usuário só se a dúvida mudar onde pesquisar.
+Escolha **um cliente ideal principal e um adjacente**, cada um com gatilhos de dor, sinais positivos e desqualificadores explícitos. Em produto de dois lados, o principal é o lado que paga. Em B2B, monte também o **comitê de compra** (decisor econômico, dono da dor, usuário, influenciador técnico) com os cargos como aparecem no LinkedIn brasileiro — veja [references/decisores.md](references/decisores.md). Marque o que foi inferido e não observado. Faça uma pergunta ao usuário só se a dúvida mudar onde pesquisar.
 
 Escolha o modo (veja **Modos**). Se o produto custa até ~R$ 100 e é vendido por anúncio (infoproduto, PDF, curso curto, low ticket), use o modo **infoproduto** por padrão: falar com 10 pessoas uma a uma não paga a venda, o valor está nas frases de dor que viram anúncio.
 
@@ -59,7 +59,15 @@ Pontue cada prospect verificado com a régua do framework (dor, encaixe, momento
 
 Nunca diga nem sugira que um prospect tem interesse, deu consentimento ou vai comprar. Rotule tudo como "cliente potencial com base em sinais públicos".
 
-### 5. Rascunhar abordagem — nunca enviar
+### 5. Mapear os decisores (B2B — obrigatório)
+
+Empresa sem pessoa não é lead: o telefone do site cai no SAC. Para cada empresa da lista principal, siga [references/decisores.md](references/decisores.md): rode um subagente por empresa (ou por lote de 2–3) procurando **nome, cargo, LinkedIn e fonte** do decisor econômico e do dono da dor — LinkedIn via Google, imprensa, eventos, cases de fornecedores, site. Marque a confiança de cada pessoa (alta/média/baixa) e a data da fonte. Coloque-os em `decision_makers` no JSON, o melhor primeiro.
+
+Se não achar ninguém com nome, diga isso no card e dê o caminho exato (página da empresa no LinkedIn → Pessoas → filtro "e-commerce") — e baixe a nota de alcançabilidade.
+
+### 6. Rascunhar abordagem — nunca enviar
+
+Em B2B, a abordagem é **para a pessoa**, não para a empresa: nota de convite do LinkedIn (≤300 caracteres) e mensagem (≤90 palavras) para o decisor principal, falando da dor do cargo dela. Telefone da empresa entra só como "peça pelo [nome]".
 
 Para cada prospect, sugira o canal mais natural já ligado à fonte (responder no post ou comentário, perfil público, página de contato da empresa, WhatsApp comercial divulgado publicamente pela empresa) e escreva uma mensagem de até 90 palavras, em tom brasileiro, próximo e sem cara de robô: cite o contexto público com naturalidade, ligue ao problema exato, descreva o produto em uma frase, termine com uma pergunta leve. Use só o que está na fonte — sem intimidade fingida, sem dado pessoal. Nada de "Prezado(a)".
 
@@ -67,7 +75,7 @@ No modo **infoproduto**, troque a mensagem por um **ângulo de criativo**: o gan
 
 Não envie mensagens, não preencha formulários, não comente, não siga, não conecte, não crie registro em CRM. Se o usuário pedir para enviar, é outro pedido que precisa da autorização explícita dele, mensagem por mensagem.
 
-### 6. Gerar o relatório
+### 7. Gerar o relatório
 
 Por padrão, relatório HTML (só no chat se o usuário pedir):
 
@@ -85,14 +93,15 @@ No chat, comece pelo veredito e pelo prospect mais forte, depois o link do arqui
 - **profundo** — até 20 prospects e mapa de dores repetidas.
 - **infoproduto** — para low ticket vendido por anúncio (Meta, TikTok, YouTube). O "prospect" passa a ser a **comunidade ou publicação** onde a dor aparece (um post viral, uma thread de comentários, um grupo público, uma reclamação). Foque em: frases literais de dor, objeções ("será que funciona?", "é golpe?", "muito caro"), o que já tentaram, e quem compra para quem (ex.: filha comprando para a mãe). Os **padrões** viram os ângulos de anúncio; o plano de sete dias vira quais criativos testar primeiro. Sugira também interesses e palavras para segmentação.
 - **parceiros-de-teste** — prioriza quem vai testar e dar feedback sobre quem vai pagar.
-- **b2b** — prioriza empresas, gatilhos públicos de negócio (vaga aberta, nova filial, CNPJ novo, mudança de lei) e cargos que decidem; LinkedIn em primeiro lugar.
+- **b2b** — prioriza empresas, gatilhos públicos de negócio (vaga aberta para a função, nova filial, entrada em marketplace, mudança de lei) e os **decisores com nome** de cada uma; LinkedIn em primeiro lugar. No Brasil quase ninguém pede "alguém indica" em público em B2B: o grupo **momento** (vagas, expansão) vem primeiro e rende mais que demanda explícita.
 - **comunidade** — prioriza discussões públicas e pedidos explícitos de "alguém indica?".
 - **local** — negócio físico ou de cidade: Google Maps, Instagram local, grupos públicos do bairro/cidade, OLX.
 
 ## Pegadinhas
 
-- **Inventar é o que mata esta skill.** Um prospect plausível com link morto ou que não bate é pior que nenhum. A verificação (passo 3) é obrigatória, até no modo rápido.
+- **Inventar é o que mata esta skill.** Um prospect plausível com link morto ou que não bate é pior que nenhum. A verificação (passo 3) vale também para os decisores e é obrigatória, até no modo rápido.
 - **Produto de dois lados:** os subagentes vão trazer os dois lados misturados. Filtre para o cliente principal antes de pontuar; o lado adjacente vai em padrões.
+- **SAC não é lead:** em B2B, entregar só telefone e e-mail de atendimento é entregar o trabalho pela metade. O card precisa de pelo menos um decisor com nome — ou dizer claramente que não achou e onde procurar.
 - **Sinal velho:** um pedido explícito de 18 meses atrás ainda pode entrar, mas corte a nota de momento e mostre a data.
 - **Dez fortes valem mais que trinta genéricos.** Se a verificação deixar quatro ótimos, entregue quatro e diga por quê.
 - **Golpe e desconfiança:** no Brasil, "é golpe?" é objeção nº 1 em produto digital. Registre quando aparecer; é sinal de padrão, não de desinteresse.

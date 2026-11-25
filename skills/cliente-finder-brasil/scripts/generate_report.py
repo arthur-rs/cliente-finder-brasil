@@ -64,6 +64,33 @@ def render_scores(scores: dict[str, Any]) -> str:
     )
 
 
+def render_people(prospect: dict[str, Any]) -> str:
+    people = [p for p in as_list(prospect.get("decision_makers")) if isinstance(p, dict)]
+    hint = prospect.get("find_people_hint")
+    if not people and not hint:
+        return ""
+    cards = []
+    for p in people:
+        links = []
+        if safe_url(p.get("linkedin")) != "#":
+            links.append(f'<a href="{safe_url(p.get("linkedin"))}" target="_blank" rel="noreferrer">LinkedIn</a>')
+        if p.get("email"):
+            links.append(esc(p.get("email")))
+        if safe_url(p.get("source")) != "#":
+            links.append(f'<a href="{safe_url(p.get("source"))}" target="_blank" rel="noreferrer">fonte {esc(p.get("source_date") or "")}</a>')
+        note = p.get("connect_note")
+        cards.append(
+            f'<div class="person"><p class="who"><b>{esc(p.get("name"))}</b> · {esc(p.get("title"))}'
+            f' <span class="conf conf-{esc(str(p.get("confidence", "")).replace("é", "e"))}">{esc(p.get("confidence") or "?")}</span></p>'
+            f'<p class="sub">{esc(p.get("role") or "")}{" · " + esc(p.get("why")) if p.get("why") else ""}</p>'
+            f'<p class="sub">{" · ".join(links)}</p>'
+            + (f'<p class="cnote"><span class="label">Nota de convite:</span> {esc(note)}</p>' if note else "")
+            + "</div>"
+        )
+    hint_html = f'<p class="sub">{esc(hint)}</p>' if hint else ""
+    return f'<div class="people"><p class="label">Com quem falar</p>{"".join(cards)}{hint_html}</div>'
+
+
 def render_prospect(prospect: dict[str, Any], index: int) -> str:
     score = clamp(prospect.get("score"))
     source = as_dict(prospect.get("source"))
@@ -105,6 +132,7 @@ def render_prospect(prospect: dict[str, Any], index: int) -> str:
       </header>
       {f'<p class="signal">{esc(prospect.get("signal"))}</p>' if prospect.get("signal") else ''}
       <dl class="kv">{rows}</dl>
+      {render_people(prospect)}
 {opener_html}
       <details class="screen-only">
         <summary>Evidência e detalhamento da nota</summary>
@@ -163,6 +191,9 @@ h2.section{font-weight:400;font-size:26px;line-height:1.2;letter-spacing:-.025em
 .kv:empty{display:none}.p-head+.kv{margin-top:18px}.kv{display:grid;grid-template-columns:120px 1fr;gap:10px 24px;margin:0}
 .kv dd{margin:0;color:var(--ink2);font-size:14px}
 .kv dt{font-size:14px}
+.people{margin:20px 0 0;border-left:3px solid var(--accent);padding:2px 0 2px 16px}.people .label{margin:0}
+.person{margin:10px 0 0}.person p{margin:0}.who{font-size:15px}.cnote{font-size:13px;color:var(--ink2);margin-top:4px!important}
+.conf{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:1px 8px;color:var(--ink3)}.conf-alta{color:var(--accent);border-color:var(--accent)}
 .opener{background:var(--tint);border-radius:16px;padding:18px 22px;margin:22px 0 0}
 .opener p{margin:6px 0 0}.opener .label{margin:0}
 details{margin-top:16px}

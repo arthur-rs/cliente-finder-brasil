@@ -37,6 +37,21 @@ O script usa só a biblioteca padrão do Python 3.9+. Devolva o caminho absoluto
         "date": "2026-06-20"
       },
       "channel": "Responder no próprio post",
+      "decision_makers": [
+        {
+          "name": "Fulana de Tal",
+          "title": "Head de E-commerce",
+          "role": "Dono da dor",
+          "linkedin": "https://www.linkedin.com/in/exemplo",
+          "email": "",
+          "source": "https://exemplo.com.br/materia",
+          "source_date": "2025-08",
+          "confidence": "alta",
+          "why": "Responde pelo site e pelos marketplaces.",
+          "connect_note": "Oi Fulana, vi que a Exemplo abriu vaga de cadastro... (até 300 caracteres)"
+        }
+      ],
+      "find_people_hint": "",
       "opener": "Vi sua pergunta sobre cobrança de aluno atrasado...",
       "caution": "Confirme se a cobrança ainda é manual antes de oferecer.",
       "scores": {
@@ -74,3 +89,4 @@ O script usa só a biblioteca padrão do Python 3.9+. Devolva o caminho absoluto
 - Todo prospect precisa de `source.url` real e verificada (http/https) e de `score` 0–100 coerente com `scores`.
 - As chaves de `scores` são `pain`, `fit`, `timing`, `reachability`, `evidence`, cada uma 0–5. Use `stage` em português ("Alta intenção", "Consciente do problema", "Gatilho presente").
 - Campos opcionais vazios têm padrão seguro; não invente texto para preencher.
+- Em B2B, `decision_makers` é obrigatório: nome, cargo, `role` (Decisor econômico, Dono da dor, Usuário, Influenciador técnico), `linkedin`, `source`, `source_date` e `confidence` (alta, média, baixa). `email` só se publicado em página pública. Se não achar ninguém, deixe a lista vazia e escreva em `find_people_hint` onde procurar.
